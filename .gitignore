@@ -1,0 +1,4 @@
+/gitignore Extras/
+
+__pycache__/
+/venv/
