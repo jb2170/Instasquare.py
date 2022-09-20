@@ -62,14 +62,14 @@ def square_image(filepath: pathlib.Path):
 def main():
     parser = argparse.ArgumentParser(description = "instasquare: square pics for Instagram using ImageMagick")
 
-    parser.add_argument("filenames", metavar = "FILENAME", help = "filenames to process", nargs = "+")
+    parser.add_argument("filepaths", metavar = "FILENAME", help = "filenames to process", nargs = "+", type = pathlib.Path)
 
     args = parser.parse_args()
 
-    filenames: List[str] = args.filenames
+    filepaths: List[pathlib.Path] = args.filepaths
 
-    for filename in filenames:
-        square_image(pathlib.Path(filename))
+    for filepath in filepaths:
+        square_image(filepath)
 
 if __name__ == "__main__":
     main()
