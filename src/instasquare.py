@@ -6,7 +6,9 @@ import pathlib
 import math
 import subprocess
 
-def square_image(filepath: pathlib.Path):
+DEFAULT_BLUR_VALUE = 9
+
+def square_image(filepath: pathlib.Path, blur: int):
     dimensions_buffer = bytearray()
 
     print(f"Identifying {filepath}")
@@ -40,7 +42,7 @@ def square_image(filepath: pathlib.Path):
     print(f"Squaring from {filepath}")
     if subprocess.call([
         "convert", f"{filepath}",
-        "(", "-clone", "0", "-blur", "0x9", "-resize", f"{width_new}x{height_new}!", ")",
+        "(", "-clone", "0", "-blur", f"0x{blur}", "-resize", f"{width_new}x{height_new}!", ")",
         "(", "-clone", "0", ")",
         "-delete", "0",
         "-gravity", "center",
@@ -64,12 +66,19 @@ def main():
 
     parser.add_argument("filepaths", metavar = "FILENAME", help = "filenames to process", nargs = "+", type = pathlib.Path)
 
+    parser.add_argument("--blur",
+        help = f"Blur value to pass to ImageMagick. Defaults to {DEFAULT_BLUR_VALUE}",
+        type = int,
+        default = DEFAULT_BLUR_VALUE
+    )
+
     args = parser.parse_args()
 
     filepaths: List[pathlib.Path] = args.filepaths
+    blur: int = args.blur
 
     for filepath in filepaths:
-        square_image(filepath)
+        square_image(filepath, blur)
 
 if __name__ == "__main__":
     main()
