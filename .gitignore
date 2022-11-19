@@ -1,4 +1,4 @@
-/gitignore Extras/
+/.gitignore.d/
 
 __pycache__/
 /venv/
